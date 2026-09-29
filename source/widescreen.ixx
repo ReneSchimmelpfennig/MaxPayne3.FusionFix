@@ -1,11 +1,25 @@
 module;
 
 #include <common.hxx>
+#include <cmath>
 
 export module widescreen;
 
 import common;
 import settings;
+
+namespace FusionFixUI
+{
+// Scale the width of the game's centered HUD parent, never beyond the viewport.
+// A nonpositive constraint means Auto (the full available width).
+inline float HudWidthScale(float displayAspect, float constraint)
+{
+    if (!std::isfinite(displayAspect) || displayAspect <= 0 ||
+        !std::isfinite(constraint) || constraint <= 0)
+        return 1.0f;
+    return std::min(constraint, displayAspect) / displayAspect;
+}
+}
 
 namespace MonitorConfiguration
 {
@@ -31,13 +45,10 @@ void __fastcall sub_110F3F0(void* _this, void* edx, float a2, float a3, unsigned
             a2 /= ar / (16.0f / 9.0f);
         }
 
-        if (a4 == 0xB50EFAA2)
-        {
-            auto fHudAspectRatioConstraint = FusionFixSettings.GetFloat(PREF_HUDASPECTRATIOCONSTRAINT);
-            if (fHudAspectRatioConstraint >= (16.0f / 9.0f))
-                a2 /= ar / fHudAspectRatioConstraint;
-        }
     }
+
+    if (a4 == 0xB50EFAA2)
+        a2 *= FusionFixUI::HudWidthScale(ar, FusionFixSettings.GetFloat(PREF_HUDASPECTRATIOCONSTRAINT));
 
     return shsub_110F3F0.unsafe_fastcall(_this, edx, a2, a3, a4);
 }

@@ -45,13 +45,18 @@ This projects aims to add new features and fix some issues in Max Payne 3. Also 
 
 ### New menu options
 
-- **BorderlessWindowed**, scroll through **SETTINGS -> GRAPHICS -> FULLSCREEN** to switch between windowed and borderless modes
-- **GamepadIcons**, scroll through **SETTINGS -> CONTROLS -> GAMEPAD -> CONFIGURATION** to select various controller icon styles (Xbox 360, Xbox One, PS3, PS4, PS5, Nintendo Switch, Steam Deck, Steam Controller)
+Fusion Fix options are available under **Settings -> Fusion Fix Options**, immediately after Graphics. The page's **Restore Defaults** resets only Fusion Fix settings and saves them to CFG.
+
+FOV, subtitle size, and outline size use sliders. SMAA is an On/Off toggle; blur and diagnostic SMAA modes are CFG-only settings. Changes save automatically to `plugins/MaxPayne3.FusionFix.cfg`. If saving fails, Fusion Fix tries the game folder, `%LOCALAPPDATA%/Rockstar Games/Max Payne 3/`, `%LOCALAPPDATA%/MaxPayne3.FusionFix/`, then `Documents/MaxPayne3.FusionFix/`. Missing folders are created. Startup loads the newest readable CFG across these locations, and subsequent saves keep that location when writable. Existing INI values are imported for settings without a CFG value; the CFG takes precedence afterward. Edit the CFG while the game is closed.
+
+Menu labels and descriptions follow the game language in all ten supported languages. Separate UTF-8 GXT-layout files in `text/` are embedded at build time and extend native GXT lookup with English fallback. Plugins can register pages and translations through the [C menu API](docs/menu-api.md).
+
+Xbox Rain Droplets has its own page after Fusion Fix when the updated plugin is installed. Its INI settings save to its own CFG, and its Restore Defaults affects only Rain Droplets.
 
 ### New options
 
 > [!NOTE]
-> **MaxPayne3.FusionFix.ini** can be edited at any time, before and after the game is launched
+> Use the settings menus to change options while playing. SkipIntro takes effect on the next launch.
 
 - **SkipIntro**, added an option to skip intro
 - **HideSkipButton**, added an option to hide ![skip](https://i.imgur.com/vwELI93.png) in cutscenes

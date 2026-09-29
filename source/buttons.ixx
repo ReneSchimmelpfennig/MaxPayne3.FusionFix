@@ -43,7 +43,9 @@ private:
     static void ButtonsCallback()
     {
         auto prefvalueindex = FusionFixSettings.GetInt(PREF_BUTTONS);
-        if (gameButtonPtrs)
+        if (controllerDstTexPtr && static_cast<size_t>(prefvalueindex) < controllerTexPtrs.size() && controllerTexPtrs[prefvalueindex])
+            *controllerDstTexPtr = controllerTexPtrs[prefvalueindex];
+        if (gameButtonPtrs && static_cast<size_t>(prefvalueindex) < buttonTexPtrs.size())
         {
             for (auto b = buttons.begin(); b < buttons.end(); b++)
             {
@@ -162,32 +164,8 @@ public:
                 ButtonsCallback();
             };
 
-            FusionFix::onMenuOptionChange() += [](std::string_view name, int32_t oldVal, int32_t curVal)
-            {
-                if (name == "MS_Control.ConfigurationList")
-                {
-                    if (oldVal == 3 && curVal == 4)
-                    {
-                        auto v = FusionFixSettings.GetInt(PREF_BUTTONS) + 1;
-                        if (v > gLastControllerTextureIndex) v = 0; else if (v < 0) v = gLastControllerTextureIndex;
-
-                        CIniReader iniWriter("");
-                        iniWriter.WriteInteger("MAIN", "GamepadIcons", v);
-                        if (controllerDstTexPtr && controllerTexPtrs[v])
-                            *controllerDstTexPtr = controllerTexPtrs[v];
-                    }
-                    else if (oldVal == 4 && curVal == 3)
-                    {
-                        auto v = FusionFixSettings.GetInt(PREF_BUTTONS) - 1;
-                        if (v > gLastControllerTextureIndex) v = 0; else if (v < 0) v = gLastControllerTextureIndex;
-
-                        CIniReader iniWriter("");
-                        iniWriter.WriteInteger("MAIN", "GamepadIcons", v);
-                        if (controllerDstTexPtr && controllerTexPtrs[v])
-                            *controllerDstTexPtr = controllerTexPtrs[v];
-                    }
-                }
-            };
         };
     }
 } Buttons;
+
+

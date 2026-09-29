@@ -98,6 +98,7 @@ workspace "MaxPayne3.FusionFix"
    files { "source/**.h", "source/*.hpp", "source/*.cpp", "source/*.hxx", "source/**.ixx" }
    files { "source/resources/Versioninfo.rc" }
    files { "source/resources/Shaders.rc" }
+   files { "text/*FF.txt" }
    links { "LogitechLEDLib.lib" }
 
    includedirs { "external/hooking" }

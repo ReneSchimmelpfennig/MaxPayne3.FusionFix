@@ -204,26 +204,7 @@ public:
                 SwitchWindowStyle(false);
             };
 
-            FusionFix::onMenuOptionChange() += [](std::string_view name, int32_t oldVal, int32_t curVal)
-            {
-                if (name == "MS_Graphics.FullScreenList")
-                {
-                    if (curVal == 0) // windowed
-                    {
-                        static auto counter = 0;
-
-                        CIniReader iniWriter("");
-                        iniWriter.WriteInteger("MAIN", "BorderlessWindowed", counter);
-
-                        counter++;
-
-                        if (counter > 1)
-                            counter = 0;
-                        else if (counter < 0)
-                            counter = 1;
-                    }
-                }
-            };
         };
     }
 } Windowed;
+
